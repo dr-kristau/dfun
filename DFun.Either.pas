@@ -1,10 +1,19 @@
+{$DEFINE FPC}
+{$mode delphi}
+
 unit DFun.Either;
 
 interface
 
 uses
+{$IFDEF FPC}
+  SysUtils;
+{$ELSE}
   System.Classes,
   System.SysUtils;
+{$ENDIF}
+
+
 
 type
   IEither<A, B> = interface
@@ -22,6 +31,10 @@ type
     function GetValue: B;
     property Value: B read GetValue;
   end;
+
+{$IFDEF FPC}
+  TFunc<A,B,TResult> = function (Arg1: A; Arg2: B): TResult;
+{$ENDIF}
 
   Either = class
     class function Left<A, B>(const AValue: A): IEither<A, B>;
