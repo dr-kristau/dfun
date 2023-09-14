@@ -1,11 +1,19 @@
+{$DEFINE FPC}
+{$mode delphi}
+
 unit DFun.Maybe;
 
 interface
 
 uses
+{$IFDEF FPC}
+  DFun.Null,
+  SysUtils;
+{$ELSE}
+  DFun.Null,
   System.Classes,
-  System.SysUtils,
-  DFun.Null;
+  System.SysUtils;
+{$ENDIF}
 
 type
   IMaybe<A> = interface
@@ -21,6 +29,13 @@ type
     function GetValue: A;
     property Value: A read GetValue;
   end;
+
+  {$IFDEF FPC}
+    TFunc<TResult> = function: TResult;
+    TFunc<A,TResult> = function (Arg1: A): TResult;
+    TProc = procedure;
+    TProc<A> = procedure (Arg1: A);
+  {$ENDIF}
 
   Maybe = class
     class function Nothing<A>: IMaybe<A>;
@@ -94,10 +109,29 @@ end;
 
 class procedure Maybe.Match<A>(const AWhenNothing: TProc;
   const AWhenJust: TProc<A>; const AValue: IMaybe<A>);
+{$IFDEF FPC}
+   function One: INull;
+   begin
+       AWhenNothing;
+       Result := Null.Value;
+   end;
+
+   function Two(X: A): INull;
+   begin
+       AWhenJust(X);
+       Result := Null.Value;
+   end;
+{$ENDIF}
 begin
+
   Match<A, INull>(
+{$IFDEF FPC}
+    One,
+    Two,
+{$ELSE}
     function: INull begin AWhenNothing; Result := Null.Value; end,
     function(X: A): INull begin AWhenJust(X); Result := Null.Value; end,
+{$ENDIF}
     AValue);
 end;
 

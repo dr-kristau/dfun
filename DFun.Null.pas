@@ -1,10 +1,17 @@
+{$DEFINE FPC}
+{$mode delphi}
+
 unit DFun.Null;
 
 interface
 
 uses
+{$IFDEF FPC}
+  SysUtils;
+{$ELSE}
   System.Classes,
   System.SysUtils;
+{$ENDIF}
 
 type
   INull = interface

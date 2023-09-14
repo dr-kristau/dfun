@@ -33,7 +33,7 @@ type
   end;
 
 {$IFDEF FPC}
-  TFunc<A,B,TResult> = function (Arg1: A; Arg2: B): TResult;
+  TFunc<A,TResult> = function (Arg1: A): TResult;
 {$ENDIF}
 
   Either = class
