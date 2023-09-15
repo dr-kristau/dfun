@@ -9,6 +9,9 @@
         <Projects Include="Test\DFunTests.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\QuickLib\samples\delphi\QuickLinq\LinqLists\LinqList.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="DFunTests:Make">
         <MSBuild Projects="Test\DFunTests.dproj" Targets="Make"/>
     </Target>
+    <Target Name="LinqList">
+        <MSBuild Projects="..\QuickLib\samples\delphi\QuickLinq\LinqLists\LinqList.dproj"/>
+    </Target>
+    <Target Name="LinqList:Clean">
+        <MSBuild Projects="..\QuickLib\samples\delphi\QuickLinq\LinqLists\LinqList.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="LinqList:Make">
+        <MSBuild Projects="..\QuickLib\samples\delphi\QuickLinq\LinqLists\LinqList.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="DFun;DFunTests"/>
+        <CallTarget Targets="DFun;DFunTests;LinqList"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="DFun:Clean;DFunTests:Clean"/>
+        <CallTarget Targets="DFun:Clean;DFunTests:Clean;LinqList:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="DFun:Make;DFunTests:Make"/>
+        <CallTarget Targets="DFun:Make;DFunTests:Make;LinqList:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
